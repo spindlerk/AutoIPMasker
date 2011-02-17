@@ -1,0 +1,47 @@
+--- version 1.1: ---
+set the GUI to dissable all options when a button is pressed.
+added extra checking for DHCP.
+added reset of DNS server with DHCP. – had issues in the past after someone had set a manual DNS server and after using dhcp it wasn’t connecting.
+changed the renew of ip address for adaptor only instead of all adaptors.
+
+--- version 1.2: ---
+shows primary DNS server.
+shows primary WINS Server
+shows DHCP Server
+Added welcome Msg.
+changed the get adaptors to default to the last selected adaptor
+
+--- version 1.3: ---
+added options to enable/disable welcome MSG and debug for testing.
+
+--- Version 1.4: ---
+changed Welcome MSG to give info on removing it.
+changed main gui, put configs into tabs (Sugested by mrhinkle on sourceforge).
+allowed selecting the configs outside the tabs (Sugested by Chris).
+allowed changing of DNS and WINS in each config (also sugested by mrhinkle).
+changed to allow each config to disable when DHCP is checked.
+small amount of code cleanup.
+
+--- version 1.5 ---
+added command line options.
+changed the title bar to include the language it is written with.
+
+--- version 1.6 ---
+added tray options and the ability to minimise to tray. -- thanks 3w`Sparky from hak.5 forums
+chaged the welcome message to be able to be used as the about option in the tray.
+fixed the DHCP server information as it was showing wins server instead of dhcp server.
+updated the Readme file.
+
+--- version 1.65 ---
+only a slight update this time.
+made the hiding and showing a little pretty by including the showing of minimise and restore before hiding.
+added custom config names. -- thanks again 3w`Sparky from hak.5 forums
+changed the welcome message to include a warning.
+
+--- version 1.7 ---
+bigger update this time. making up for last time :)
+changed the GUI around.
+cleaned up the code and changed the way some functions were called.
+changed a line in the welcome message. and fixed a typo.
+changed the renaming of configs so when you click away it renames the config tabs and tray options.
+apdated the readme for the new GUI.
