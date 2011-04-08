@@ -50,13 +50,14 @@ While 1
 		MsgBox(0, $WinTitle, "Entering AutoRun Mode")
 		$colItems = $objWMIService.ExecQuery("SELECT * FROM Win32_NetworkAdapter", "WQL", $wbemFlagReturnImmediately + $wbemFlagForwardOnly)
 		For	$objItem in $colItems
-			If $Adapters = "Wireless Network Connection" Then MsgBox(0, $WinTitle, "Wirless NIC Identified")
-			ExitLoop
-			ElseIf $Adapters = "Local Area Connection" Then MsgBox(0, $WinTitle, "Wired NIC Identified")
-			ExitLoop
-			ElseIf $Adapters = "" Then MsgBox(0, $WinTitle, "No NIC Identified")
-			ExitLoop
-			EndIf
+			MsgBox(0, $WinTitle, $objItem)
+			;If $Adapters = "Wireless Network Connection" Then MsgBox(0, $WinTitle, "Wirless NIC Identified")
+			;ExitLoop
+			;ElseIf $Adapters = "Local Area Connection" Then MsgBox(0, $WinTitle, "Wired NIC Identified")
+			;ExitLoop
+			;ElseIf $Adapters = "" Then MsgBox(0, $WinTitle, "No NIC Identified")
+			;ExitLoop
+			;EndIf
 		Next
 		;_Set_DHCP(
 		Case $msg = $advancedconfigbutton
