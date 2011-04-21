@@ -48,8 +48,8 @@ $NoteString7 = "Failed to set DNS server (settings might still work)"
 $objWMIService = ObjGet("winmgmts:\\localhost\root\CIMV2")
 
 $autorunwindow=GUICreate($WinTitle, 500, 200)
-$autorunbutton = GUICtrlCreateButton("Run", 70, 50, 90)
-$advancedconfigbutton = GUICtrlCreateButton("Advanced Config", 300, 50, 200)
+$autorunbutton = GUICtrlCreateButton("Run", 20, 50, 200, 100)
+$advancedconfigbutton = GUICtrlCreateButton("Advanced Config", 285, 50, 200, 100)
 
 GUISetState(@SW_SHOW)
 
@@ -58,19 +58,29 @@ While 1
 	
 	Select
 		Case $msg = $autorunbutton
-		MsgBox(0, $WinTitle, "Entering AutoRun Mode")
 		$Adapter = getActiveAdapter($localhost)
-		If $Adapter == "Wireless Network Connection" Then
-			$DHCP=_Set_DHCP_Auto($Adapter)
-		;	If $DHCP == 1 Then
-		;	ExitLoop
-		;	ElseIf $DHCP == 2 Then
-			
-		ElseIF $Adapter == "Local Area Connection" Then
-			_Set_ip_Auto($Rand_IP)
-		EndIf
+		$DHCP=_Set_DHCP_Auto($Adapter)
+		If $DHCP == 1 Then
+			ExitLoop
+		ElseIf $DHCP == 2 Then
+			$IP_set=_Set_ip_Auto($Adapter, 192.168.0.100, 255.255.255.0, 192.168.0.1, 192.168.0.1)
+				If $IP_set == 1 Then
+				ExitLoop
+				ElseIf $IP_set == 2 Then
+				$IP_set=_Set_ip_Auto($Adapter, 172.168.0.12, 255.255.0.0, 172.168.0.1, 172.168.0.1)
+					If $IP_set == 1 Then
+					ExitLoop
+					ElseIf $IP_set == 2 Then
+					$IP_set=_Set_ip_Auto($Adapter, 10.1.1.235, 255.0.0.0, 10.1.1.1, 10.10.1.1)
+						If $IP_set == 1 Then
+						ExitLoop
+						ElseIf $IP_set == 2 Then
+						GUICtrlSetData($statuslabel, $NoteString1)
+						EndIf
+					EndIf
+				EndIf
+			EndIf
 		Case $msg = $advancedconfigbutton
-		MsgBox(0, $WinTitle, "Entering Advanced Config Mode")
 		ExitLoop
 		
 		Case $msg = $GUI_EVENT_CLOSE
@@ -1027,7 +1037,6 @@ Func getActiveAdapter($srv)
         If IsObj($colItems) Then
             For $objItem In $colItems
 				If $objItem.NetConnectionStatus == 2 Then
-                MsgBox(0, "Adapter Connected", $objItem.NetConnectionID, 5)
 				return $objItem.NetConnectionID
 				ExitLoop
 				EndIF
@@ -1057,22 +1066,17 @@ Func _Set_DHCP_Auto($name)
 	ProgressOff()
 	If $run = 0 Then
 		Return 1
-		MsgBox(0, $WinTitle, $NoteString4)
-		GUICtrlSetData($statuslabel, $NoteString4)
 	ElseIf $run2 <> 0 Then
 		Return 2
-		;MsgBox(0, $WinTitle, $NoteString6)
-		;GUICtrlSetData($statuslabel, $NoteString6)
 	ElseIf $run3 <> 0 Then
 		MsgBox(0, $WinTitle, $NoteString7)
 	Else
 		MsgBox(0, $WinTitle, $NoteString1)
 		GUICtrlSetData($statuslabel, $NoteString1)
 	EndIf
-	_Refresh_Config()
 EndFunc
 
-;Func _Set_ip_Auto($name, $IP, $Subnet, $DefaultGW, $DNS, $WINS)
+Func _Set_ip_Auto($name, $IP, $Subnet, $DefaultGW, $DNS, $WINS)
 	ProgressOn($WinTitle, "Changing IP Address")
 	GUICtrlSetData($statuslabel, "")
 	$run = RunWait(@ComSpec & " /c " & 'netsh interface ip set address name="' & $name & '" static ' & $IP & " " & $Subnet & " " & $DefaultGW & " 1", "")
@@ -1082,16 +1086,11 @@ EndFunc
 	ProgressSet(100)
 	Sleep(500)
 	ProgressOff()
-	If $run = 0 Then 
-		MsgBox(0,$WinTitle, $NoteString4)
-		GUICtrlSetData($statuslabel, $NoteString4)
-		Sleep(1000)
+	$ping = Ping($DefaultGW)
+	If $ping == 0 Then 
+		Return 0 ;Returns 0 if ping of default gateway fails
 	Else
-		MsgBox(0,$WinTitle, $NoteString1)
-		GUICtrlSetData($statuslabel, $NoteString1)
+		Return 1 ;Returns 1 if ping of default gateway succeeds 
 	EndIf
-	_Refresh_Config()
-;EndFunc
-
-;Func createRandIP()
+EndFunc
 	
