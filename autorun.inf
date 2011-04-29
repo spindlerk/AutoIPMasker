@@ -1,0 +1,5 @@
+[autorun]
+open=IPChanger.exe
+action=FastIPChanger
+icon=IPChanger.exe
+label=FastIPChanger
