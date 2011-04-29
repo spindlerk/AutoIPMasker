@@ -22,6 +22,7 @@ Global $IPaddress = ""
 Global $Subnet = ""
 Global $DHCP = ""
 Global $Mark = 0
+Global $statuslabel = ""
 
 $check1 = 0
 $check2 = 0
