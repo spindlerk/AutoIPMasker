@@ -1,5 +1,7 @@
 #include <GuiConstants.au3>
-
+#comments-start
+Global configurations
+#comments-end
 Opt("TrayMenuMode",1)
 Global $version = "Version 1.7"
 Global $WinTitle = "Fast IP Changer (" & $version & ") - Timmo - written in AutoIT"
@@ -33,7 +35,9 @@ $NoteString6 = "Failed to get IP via DHCP, make sure you are connected to a DHCP
 $NoteString7 = "Failed to set DNS server (settings might still work)"
 
 $objWMIService = ObjGet("winmgmts:\\localhost\root\CIMV2")
-
+#comments-start
+Call getActiveAdapter to get the NIC currently in use. Tries setting the IP to DHCP, if DHCP is not available, tests three static IP settings from ini file.
+#comments-end
 		$Adapter = getActiveAdapter($localhost)
 		$DHCP=_Set_DHCP_Auto($Adapter)
 		If $DHCP == 1 Then
@@ -52,7 +56,9 @@ $objWMIService = ObjGet("winmgmts:\\localhost\root\CIMV2")
 					EndIf
 				EndIf
 			EndIf
-	
+#comments-start
+search and find the active network adapter
+#comments-end	
 Func getActiveAdapter($srv)
 	
 	Local $Description, $colItems, $colItem, $ping
@@ -76,7 +82,9 @@ Func getActiveAdapter($srv)
     EndIf
 EndIF
 EndFunc
-
+#comments-start
+configure the auto dhcp and set progress bar
+#comments-end
 Func _Set_DHCP_Auto($name)
 	$DHCP = _Test_DHCP($Adapter)
 	ProgressOn($WinTitle, "Changing IP Address")
@@ -103,7 +111,9 @@ Func _Set_DHCP_Auto($name)
 		GUICtrlSetData($statuslabel, $NoteString1)
 	EndIf
 EndFunc
-
+#comments-start
+Takes in static IP settings and tries to ping default gateway to see if settings will work
+#comments-end
 Func _Set_ip_Auto($name, $IP, $Subnet, $DefaultGW, $DNS, $WINS)
 	ProgressOn($WinTitle, "Changing IP Address")
 	GUICtrlSetData($statuslabel, "")
@@ -121,7 +131,9 @@ Func _Set_ip_Auto($name, $IP, $Subnet, $DefaultGW, $DNS, $WINS)
 		Return 1 ;Returns 1 if ping of default gateway succeeds 
 	EndIf
 EndFunc
-
+#comments-start
+test if DHCP if enabled on the network
+#comments-end
 Func _Test_DHCP($a)
 	$colItems = $objWMIService.ExecQuery("SELECT * FROM Win32_NetworkAdapterConfiguration", "WQL", $wbemFlagReturnImmediately + $wbemFlagForwardOnly)
 	For $objItem In $colItems
