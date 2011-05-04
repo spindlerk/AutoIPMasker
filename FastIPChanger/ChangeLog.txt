@@ -45,3 +45,10 @@ cleaned up the code and changed the way some functions were called.
 changed a line in the welcome message. and fixed a typo.
 changed the renaming of configs so when you click away it renames the config tabs and tray options.
 apdated the readme for the new GUI.
+
+--- version 1.71 ---
+added autorun feature
+added and tested Windows 7 support
+updated readme
+commented code for ease of use
+added .ini for windows 7 autorun 
